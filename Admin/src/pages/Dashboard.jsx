@@ -2,13 +2,20 @@ import React from 'react'
 import logo from "../assets/logo.png"
 import AddItem_icon from "../assets/AddItem_icon.png"
 import ListItem_icon from "../assets/ListItem_icon.png"
-import { NavLink, Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeToken } from '../redux/actions/tokenAction'
 
 const Dashboard = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const warning = useSelector(state => state.warning)
 
-
+    function handleLogout() {
+        localStorage.removeItem("token")
+        dispatch(removeToken())
+        navigate('/login')
+    }
 
     return (
         <div className='mx-auto px-4 lg:px-20 min-h-screen text-gray-600 bg-[#f9fafb] overflow-hidden'>
@@ -19,7 +26,7 @@ const Dashboard = () => {
                     </NavLink>
                 </div>
                 <div>
-                    <button className='bg-[#4c5562] text-white font-medium py-2 px-6 sm:px-10 rounded-full'>Logout</button>
+                    <button className='bg-[#4c5562] text-white font-medium py-2 px-6 sm:px-10 rounded-full cursor-pointer' onClick={handleLogout}>Logout</button>
                 </div>
                 <div
                     className={`warning absolute rounded-xl -bottom-20 min-w-[220px] sm:min-w-[300px] h-[80px] p-4 flex items-center justify-center text-white bg-red-500 shadow-lg transition-all duration-300 ease-in-out ${warning ? 'right-4 opacity-100' : '-right-96 opacity-0'

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Orders = () => {
     return (
-        <div>Orders</div>
+        <div>Orders feauture not yet added please be patient</div>
     )
 }
 

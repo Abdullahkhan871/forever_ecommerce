@@ -1,9 +1,39 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { backendUrl } from "../App";
+import { useDispatch } from "react-redux";
+import { addToken } from "../redux/actions/tokenAction";
 
-const Login = () => {
+const Login = ({ setToken }) => {
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState("akhan283785@gmail.com")
+    const [password, setPassword] = useState("12345678")
+    const [showPassword, setShowPassword] = useState(false);
 
-    const [showPassword, setShowPassword] = useState(false)
+
+
+
+    const onSubmitHandler = async (e) => {
+        try {
+            e.preventDefault();
+            const response = await axios.post(backendUrl + "/api/user/admin", { email, password })
+
+            if (!response.data.token) {
+                console.log("Try again")
+                // send warning message
+                return;
+            }
+            dispatch(addToken(response.data.token))
+            localStorage.setItem("token", response.data.token);
+        }
+        catch (error) {
+        }
+
+    }
+
+
+
     return (
         <div className="h-screen py-20 flex flex-col justify-center gap-8 px-20 xl:px-0">
             <div className="flex flex-col gap-8">
@@ -11,7 +41,7 @@ const Login = () => {
                     <h2 className="prata-regular text-4xl text-center text-[#414141]">Login</h2>
                     <div className="w-10 h-0.5 bg-[#484848]"></div>
                 </div>
-                <form className="flex flex-col gap-4 sm:gap-6">
+                <form className="flex flex-col gap-4 sm:gap-6" onSubmit={onSubmitHandler}>
                     <div className="text-center">
                         <input type="email" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Email" required />
                     </div>
@@ -35,7 +65,7 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="text-center">
-                        <button className="bg-[#232323] text-white text-xl font-light border-1 border-black py-2 px-8">Create</button>
+                        <button className="bg-[#232323] text-white text-xl font-light border-1 border-black py-2 px-8">Log In</button>
                     </div>
                 </form>
             </div>

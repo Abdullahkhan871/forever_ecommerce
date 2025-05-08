@@ -5,4 +5,9 @@ export const REMOVE_ITEM = "REMOVE_ITEM";
 
 
 // warning
-export const FILL = "FILL"; 
+export const FILL = "FILL";
+
+
+// Token 
+export const ADD_TOKEN = "ADD_TOKEN";
+export const REMOVE_TOKEN = "REMOVE_TOKEN";
