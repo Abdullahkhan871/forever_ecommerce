@@ -1,4 +1,4 @@
-import { FILL } from "../actions/actionTypes";
+import { CLEAR, FILL } from "../actions/actionTypes";
 
 
 const initialState = "";
@@ -7,10 +7,9 @@ const initialState = "";
 function warningReducer(state = initialState, action) {
     switch (action.type) {
         case FILL:
-            setTimeout(() => {
-                action.payload = ""
-            }, 5000)
             return action.payload;
+        case CLEAR:
+            return "";
         default:
             console.log(action.type)
             return state

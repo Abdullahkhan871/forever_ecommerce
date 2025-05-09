@@ -6,6 +6,7 @@ export const REMOVE_ITEM = "REMOVE_ITEM";
 
 // warning
 export const FILL = "FILL";
+export const CLEAR = "CLEAR";
 
 
 // Token 

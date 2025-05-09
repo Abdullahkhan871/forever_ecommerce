@@ -9,8 +9,6 @@ import { removeToken } from '../redux/actions/tokenAction'
 const Dashboard = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const warning = useSelector(state => state.warning)
-
     function handleLogout() {
         localStorage.removeItem("token")
         dispatch(removeToken())
@@ -28,14 +26,6 @@ const Dashboard = () => {
                 <div>
                     <button className='bg-[#4c5562] text-white font-medium py-2 px-6 sm:px-10 rounded-full cursor-pointer' onClick={handleLogout}>Logout</button>
                 </div>
-                <div
-                    className={`warning absolute rounded-xl -bottom-20 min-w-[220px] sm:min-w-[300px] h-[80px] p-4 flex items-center justify-center text-white bg-red-500 shadow-lg transition-all duration-300 ease-in-out ${warning ? 'right-4 opacity-100' : '-right-96 opacity-0'
-                        }`}
-                >
-                    {warning}
-                </div>
-
-
             </div>
             <div className="min-h-[90vh] flex">
                 <div className="w-[20%] py-6 sm:py-10 border-r border-[#e5e7eb] flex flex-col gap-4">
