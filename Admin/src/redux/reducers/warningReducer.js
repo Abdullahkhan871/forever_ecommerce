@@ -11,7 +11,6 @@ function warningReducer(state = initialState, action) {
         case CLEAR:
             return "";
         default:
-            console.log(action.type)
             return state
     }
 }

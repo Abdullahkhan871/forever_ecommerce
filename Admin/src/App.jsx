@@ -8,6 +8,9 @@ import Login from './pages/Login'
 // import SignUp from './pages/Signup'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToken } from "../src/redux/actions/tokenAction.js"
+import axios from 'axios'
+import { getItems } from './redux/actions/productAction.js'
+import useGetItemsList from './components/useGetItemsList.js'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -16,10 +19,15 @@ const App = () => {
   const warning = useSelector(state => state.warning)
   const dispatch = useDispatch();
   const token = useSelector(state => state.token)
+  const getItemsList = useGetItemsList();
 
   useEffect(() => {
     dispatch(addToken(localStorage.getItem('token') || ""))
+    getItemsList()
   }, [])
+
+
+
 
   return (
     <>

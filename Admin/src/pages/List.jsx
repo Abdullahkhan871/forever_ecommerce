@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-
 import ListItem from '../components/ListItem'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { backendUrl } from '../App'
+import axios from 'axios'
+import { useState } from 'react'
 
 
 const List = () => {
     const product = useSelector(state => state.product)
-
-
 
     return (
         <div className='text-gray-600'>

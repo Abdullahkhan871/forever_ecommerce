@@ -41,6 +41,8 @@ const Login = () => {
             localStorage.setItem("token", response.data.token);
         }
         catch (error) {
+            console.log(error)
+            showWarning(error.data.message)
         }
 
     }

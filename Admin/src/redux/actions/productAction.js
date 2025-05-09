@@ -1,17 +1,24 @@
-import {ADD_ITEM,REMOVE_ITEM} from "./actionTypes";
+import { ADD_ITEM, GET_ITEMS, REMOVE_ITEM } from "./actionTypes";
 
 
-export const addItem = (item)=>{
+export const getItems = (items) => {
+    console.log("get Items")
+    return {
+        type: GET_ITEMS,
+        payload: items
+    }
+}
+export const addItem = (item) => {
     console.log(item)
     return {
-        type : ADD_ITEM,
-        payload : item
+        type: ADD_ITEM,
+        payload: item
     }
 }
 
-export const removeItem = (id)=>{
+export const removeItem = (id) => {
     return {
-        type : REMOVE_ITEM,
-        payload : id
+        type: REMOVE_ITEM,
+        payload: id
     }
 }

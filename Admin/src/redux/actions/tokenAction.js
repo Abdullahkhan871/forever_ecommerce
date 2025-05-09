@@ -1,7 +1,6 @@
 import { ADD_TOKEN, REMOVE_TOKEN } from "./actionTypes";
 
 export const addToken = (value) => {
-    console.log(value)
     return {
         type: ADD_TOKEN,
         payload: value,

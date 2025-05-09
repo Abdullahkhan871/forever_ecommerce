@@ -13,7 +13,6 @@ const AddItem = () => {
     const [resetItemSizes, setResetItemSizes] = useState(false)
 
     const [item, setItem] = useState({
-        _id: uuidv4(),
         name: "",
         description: "",
         price: '',
@@ -21,7 +20,6 @@ const AddItem = () => {
         category: "Men",
         subCategory: "Topwear",
         sizes: [],
-        date: new Date().toISOString(),
         bestseller: false
     })
 

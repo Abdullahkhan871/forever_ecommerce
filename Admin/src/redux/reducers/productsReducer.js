@@ -1,9 +1,12 @@
-import { ADD_ITEM, REMOVE_ITEM } from "../actions/actionTypes";
+import { ADD_ITEM, GET_ITEMS, REMOVE_ITEM } from "../actions/actionTypes";
 
 const initialState = [];
 
 export const productsReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case GET_ITEMS:
+            return action.payload;
 
         case ADD_ITEM:
             return [

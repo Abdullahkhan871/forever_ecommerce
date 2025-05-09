@@ -1,13 +1,31 @@
-import React from 'react'
 import image1 from "../assets/p_img2.png"
-import { useDispatch } from 'react-redux'
-import { removeItem } from '../redux/actions/productAction';
+import { useSelector } from 'react-redux'
+import { backendUrl } from '../App';
+import axios from 'axios';
+import useGetItemsList from './useGetItemsList';
 
 const ListItem = (list) => {
-    const dispatch = useDispatch(state => state.product);
+    const getItemsList = useGetItemsList();
+    const token = useSelector(state => state.token)
     const { _id, image, name, category, price, setAction } = list.list
 
-    console.log(list.list)
+
+    async function removeItem(id) {
+        try {
+            let res = await axios.post(`${backendUrl}/api/product/remove`, { id }, { headers: { token } }
+            );
+            console.log(res);
+            if (res.data.success) {
+                getItemsList()
+                return;
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
 
     return (
         <div className='grid grid-cols-7 gap-2 py-4 px-2 items-center border border-[#e5e7eb]'>
@@ -21,7 +39,7 @@ const ListItem = (list) => {
             <p className='col-span-3 sm:col-span-1'>{category}</p>
             <p className='col-span-2 sm:col-span-1'>{price}</p>
             <p className='cursor-pointer'
-            //  onClick={dispatch(removeItem(_id))}
+                onClick={() => (removeItem(_id))}
             >X</p>
         </div>
     )
