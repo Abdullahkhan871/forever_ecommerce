@@ -15,9 +15,9 @@ const Collection = () => {
   const [option, setOption] = useState("");
 
   const result = useMemo(() => {
-      let x  = [...products]
-  
-    if(filers.men || filers.women || filers.kids){
+    let x = [...products]
+
+    if (filers.men || filers.women || filers.kids) {
       x = x.filter((list) => {
         return (
           list.category.toLowerCase() == filers.men.toLowerCase() ||
@@ -26,10 +26,10 @@ const Collection = () => {
         );
       });
     }
-  
-        console.log(filers)
-    
-    if (filers.topwear || filers.winterwear || filers.bottomwear){
+
+    console.log(filers)
+
+    if (filers.topwear || filers.winterwear || filers.bottomwear) {
       x = x.filter((list) => {
         return (
           list.subCategory.toLowerCase() == filers.topwear.toLowerCase() ||
@@ -37,16 +37,16 @@ const Collection = () => {
           list.subCategory.toLowerCase() == filers.bottomwear.toLowerCase()
         );
       });
-  
+
     }
     if (option == "lowToHigh") {
       return x.sort((a, b) => a.price - b.price);
     } else if (option == "highToLow") {
       return x.sort((a, b) => b.price - a.price);
     } else {
-       return x;
+      return x;
     }
-  }, [option, filers.men,filers.women,filers.kids,filers.topwear,filers.winterwear,filers.bottomwear]);
+  }, [option, filers.men, filers.women, filers.kids, filers.topwear, filers.winterwear, filers.bottomwear]);
 
 
   function checkVlv(e) {
@@ -66,18 +66,16 @@ const Collection = () => {
           <div className="flex items-center gap-5">
             <h2 className="text-lg sm:text-2xl text-[#343434]">FILTERS</h2>
             <img
-              className={`w-2 ${
-                filterToggle ? "rotate-90" : "rotate-0"
-              } sm:hidden cursor-pointer`}
+              className={`w-2 ${filterToggle ? "rotate-90" : "rotate-0"
+                } sm:hidden cursor-pointer`}
               src={assets.dropdown_icon}
               alt=""
               onClick={() => setFilterToggle(!filterToggle)}
             />
           </div>
           <div
-            className={`border-1 border-[#C8C8C8] p-2 sm:p-4 sm:space-y-2 text-[#272727] transition-all duration-75 ease-in overflow-hidden ${
-              filterToggle ? "" : "hidden"
-            } sm:block`}
+            className={`border-1 border-[#C8C8C8] p-2 sm:p-4 sm:space-y-2 text-[#272727] transition-all duration-75 ease-in overflow-hidden ${filterToggle ? "" : "hidden"
+              } sm:block`}
           >
             <p className="text-[#212121]">Categories</p>
             <div className="flex items-center gap-1 ">
@@ -86,41 +84,40 @@ const Collection = () => {
                 name="men"
                 id="men"
                 onChange={(e) => checkVlv(e)}
-                
+
               />
 
               <label htmlFor="men">Men</label>
             </div>
             <div className="flex items-center gap-1 ">
-              <input type="checkbox" name="women" id="women"  onChange={(e) => checkVlv(e)}
-                 />
+              <input type="checkbox" name="women" id="women" onChange={(e) => checkVlv(e)}
+              />
               <label htmlFor="women">Women</label>
             </div>
             <div className="flex items-center gap-1 ">
-              <input type="checkbox" name="kids" id="kids"             onChange={(e) => checkVlv(e)}
-                />
+              <input type="checkbox" name="kids" id="kids" onChange={(e) => checkVlv(e)}
+              />
               <label htmlFor="kids">Kids</label>
             </div>
           </div>
           <div
-            className={`border-1 border-[#C8C8C8] p-2 sm:p-4 sm:space-y-2 text-[#272727] overflow-hidden ${
-              filterToggle ? "" : "hidden"
-            } sm:block`}
+            className={`border-1 border-[#C8C8C8] p-2 sm:p-4 sm:space-y-2 text-[#272727] overflow-hidden ${filterToggle ? "" : "hidden"
+              } sm:block`}
           >
             <p className="text-[#212121]">TYPE</p>
             <div className="flex items-center gap-1">
-              <input type="checkbox" name="topwear" id="topwear"             onChange={(e) => checkVlv(e)}
-                 />
+              <input type="checkbox" name="topwear" id="topwear" onChange={(e) => checkVlv(e)}
+              />
               <label htmlFor="topwear">Topwear</label>
             </div>
             <div className="flex items-center gap-1">
-              <input type="checkbox" name="bottomwear" id="bottomwear"             onChange={(e) => checkVlv(e)}
-                />
+              <input type="checkbox" name="bottomwear" id="bottomwear" onChange={(e) => checkVlv(e)}
+              />
               <label htmlFor="bottomwear">Bottomwear</label>
             </div>
             <div className="flex items-center gap-1">
-              <input type="checkbox" name="winterwear" id="winterwear"             onChange={(e) => checkVlv(e)}
-                />
+              <input type="checkbox" name="winterwear" id="winterwear" onChange={(e) => checkVlv(e)}
+              />
               <label htmlFor="winterwear">Winterwear</label>
             </div>
           </div>

@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { assets } from "../assets/assets"
+import { useSelector } from "react-redux";
 const PlaceOrder = () => {
+  const cartItems = useSelector(state => state.cart.items);
+  const cartTotal = useMemo(() => {
+    return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
+  }, [cartItems])
+
   return (
     <div className="py-5 md:py-20 flex flex-col justify-between">
       <div className="flex items-center justify-start gap-2 mb-2 sm:mb-7">
@@ -43,7 +49,7 @@ const PlaceOrder = () => {
           <div >
             <div className='border-b-1 py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
               <p>Subtotal</p>
-              <p>$60.00</p>
+              <p>${cartTotal}</p>
             </div>
             <div className='border-b-1 py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
               <p>Shipping Free</p>
@@ -51,7 +57,7 @@ const PlaceOrder = () => {
             </div>
             <div className='py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
               <p className='text-[#454545] font-bold'>Total</p>
-              <p>$70.00</p>
+              <p>${cartTotal + 10}</p>
             </div>
           </div>
           <div className="mt-5">
@@ -73,7 +79,7 @@ const PlaceOrder = () => {
                   <img src={assets.razorpay_logo} alt="" className="w-[60px] h-[20px] object-contain" />
                 </div>
               </label>
-              <label htmlFor="cashOnDelivery" className="w-full">
+              <label htmlFor="cashOnDelivery" className="w-full" >
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
                   <input type="radio" name="paymentMethod" id="cashOnDelivery" />
                   <p className="text-sm lg:text-xs lg:py-0.5">CASH ON DELIVERY</p>

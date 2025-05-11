@@ -13,9 +13,22 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ErrorPage from "./components/ErrorPage";
 import SignUp from "./pages/SignUp";
+import { ToastContainer } from "react-toastify";
 const App = () => {
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-4 relative">
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          newestOnTop
+          limit={3}
+          className="w-full"
+          toastClassName="w-full"
+          style={{ position: "absolute", top: "40px", maxWidth: "300px" }}
+        />
+      </div>
+
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
