@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeToken } from "../Redux/features/tokenSlice";
 
 const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
+  const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cart.items)
   const [visible, setvisible] = useState(false);
 
@@ -180,7 +182,10 @@ const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
                   </NavLink>
                   <NavLink
                     to="/login"
-                    onClick={() => setvisible(false)}
+                    onClick={() => {
+                      setvisible(false)
+                      dispatch(removeToken())
+                    }}
                     className={({ isActive }) =>
                       `
     p-2 border-b-2 text-xl font-medium text-white border-gray-900 ${isActive ? "bg-gray-800" : ""
