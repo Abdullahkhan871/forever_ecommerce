@@ -70,7 +70,7 @@ const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
               <img src={assets.search_icon} alt="search_icon" className="w-6" />
             </NavLink>
           </div>
-          <div>
+          <div className="hidden sm:block">
             <img src={assets.profile_icon} alt="profile_icon" className="w-6" />
           </div>
           <div className="relative">
@@ -167,7 +167,7 @@ const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
                     CONTACT
                   </NavLink>
                   <NavLink
-                    to="/admin"
+                    to="/order"
                     onClick={() => setvisible(false)}
                     className={({ isActive }) =>
                       `
@@ -176,7 +176,19 @@ const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
                     `
                     }
                   >
-                    ADMIN PANEL
+                    My Order's
+                  </NavLink>
+                  <NavLink
+                    to="/login"
+                    onClick={() => setvisible(false)}
+                    className={({ isActive }) =>
+                      `
+    p-2 border-b-2 text-xl font-medium text-white border-gray-900 ${isActive ? "bg-gray-800" : ""
+                      }
+                    `
+                    }
+                  >
+                    Logout
                   </NavLink>
                 </ul>
               </nav>

@@ -5,6 +5,7 @@ import LatestCollection from "../components/LatestCollection";
 import BestSellers from "../components/BestSellers";
 import Assurence from "../components/Assurence";
 import Subcribe from "..//components/Subscribe"
+
 const Home = () => {
   return (
     <main>
@@ -26,7 +27,7 @@ const Home = () => {
       />
       <BestSellers />
       <Assurence />
-      <Subcribe  />
+      <Subcribe />
     </main>
   );
 };

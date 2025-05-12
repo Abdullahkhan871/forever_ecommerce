@@ -72,11 +72,11 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
         <div className="w-3/4 relative rounded-full overflow-hidden">
           <input type="text" className="w-full border border-[#ADADAD] py-2 px-6 pr-16 rounded-full" value={searchBar} onChange={handleSearch} />
           <div className="w-15 flex items-center justify-center absolute top-0 right-0 h-full">
-            <img src={assets.search_icon} alt="" className="w-5" />
+            <img src={assets.search_icon} alt="" className="w-5 cursor-pointer" />
           </div>
         </div>
         <div>
-          <img src={assets.cross_icon} alt="" className="w-5" onClick={() => setToggleSearchBar(false)} />
+          <img src={assets.cross_icon} alt="" className="w-5 cursor-pointer" onClick={() => setToggleSearchBar(false)} />
         </div>
       </div>
       <div className="sm:grid sm:grid-cols-10 gap-2 md:gap-8 lg:gap-10 pt-10">

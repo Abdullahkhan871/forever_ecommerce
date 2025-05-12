@@ -26,7 +26,12 @@ const SignUp = () => {
             </div>
           </div>
           <div className="flex justify-center items-center -mt-2 sm:-mt-5">
-            <div className="w-full sm:w-2/4 flex justify-start items-center px-2">
+            <div className="w-full sm:w-2/4 flex justify-between items-center px-2">
+              <p className="text-[#3C3C3C] text-center ">
+                <Link to="/" className="underline decoration-blue-500">
+                  Skip
+                </Link>
+              </p>
               <p className="text-[#3C3C3C] text-center ">
                 <Link to="/login" className="underline decoration-blue-500">
                   Login
