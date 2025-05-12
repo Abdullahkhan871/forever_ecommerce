@@ -1,48 +1,45 @@
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Dependency directories
+# Node modules
 node_modules/
 
-# Build output
-dist/
-dist-ssr/
-build/
+# Logs
+*.log
+logs/
 
-# Local environment files
-*.env
-*.local
+# Environment files
+.env
+.env.local
+.env.*.local
 
-# OS-specific files
+# Operating system files
 .DS_Store
 Thumbs.db
-ehthumbs.db
 
-# Editor settings
+# Debugger
 .vscode/
-!.vscode/extensions.json  # Allow team-level extensions suggestion
+
+# Dependency directories
+jspm_packages/
+
+# NPM package lock files
+package-lock.json
+
+# Build output
+/dist/
+build/
+
+# IDEs and Editors
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.vscode/
 
-# MongoDB dump
-dump/
+# Temporary files
+*.bak
+*.swp
 
-# Optional cache
-.cache/
-.npm/
-.yarn/
-.eslintcache
+# Coverage reports
+coverage/
 
-# Next.js specific (if used anywhere)
-.next/
-out/
+# Serverless Framework
+.serverless/
+
+# TypeScript files (if applicable)
+*.tsbuildinfo
