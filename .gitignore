@@ -1,0 +1,37 @@
+# Root-level ignores
+.env
+.DS_Store
+*.log
+*.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+Thumbs.db
+ehthumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Admin (if frontend project)
+admin/node_modules/
+admin/build/
+admin/.env
+admin/.DS_Store
+
+# Frontend (typo 'frontedn', assuming it's 'frontend')
+frontedn/node_modules/
+frontedn/build/
+frontedn/.env
+frontedn/.DS_Store
+
+# Backend (Node + Express)
+backend/node_modules/
+backend/.env
+backend/dist/
+backend/.DS_Store
+
+# Mongo dump
+backend/dump/
