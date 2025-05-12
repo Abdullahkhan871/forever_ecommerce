@@ -3,9 +3,18 @@ import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useSelector } from "react-redux";
 
-const Navbar = () => {
+const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
   const cartItems = useSelector(state => state.cart.items)
   const [visible, setvisible] = useState(false);
+
+
+
+  function handle() {
+    setToggleSearchBar(true)
+  }
+
+
+
 
   return (
     <header className="flex items-center justify-between py-8 border-b-1 border-[#ADADAD]">
@@ -56,7 +65,7 @@ const Navbar = () => {
         </nav>
 
         <div className="flex items-center gap-5 sm:gap-4 lg:gap-8">
-          <div>
+          <div onClick={handle}>
             <NavLink to="/collection">
               <img src={assets.search_icon} alt="search_icon" className="w-6" />
             </NavLink>

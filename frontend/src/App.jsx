@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -15,6 +15,9 @@ import ErrorPage from "./components/ErrorPage";
 import SignUp from "./pages/SignUp";
 import { ToastContainer } from "react-toastify";
 const App = () => {
+
+  const [toggleSearchBar, setToggleSearchBar] = useState(false);
+
   return (
     <div className="container mx-auto px-4 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-4 relative">
@@ -29,14 +32,14 @@ const App = () => {
         />
       </div>
 
-      <Navbar />
+      <Navbar toggleSearchBar={toggleSearchBar} setToggleSearchBar={setToggleSearchBar} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/about" element={<About />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/collection" element={<Collection />} />
+        <Route path="/collection" element={<Collection toggleSearchBar={toggleSearchBar} setToggleSearchBar={setToggleSearchBar} />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/order" element={<Orders />} />
         <Route path="/placeorder" element={<PlaceOrder />} />
