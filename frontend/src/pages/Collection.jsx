@@ -3,13 +3,9 @@ import ProductItem from "../components/ProductItem";
 import { products } from "../assets/assets";
 import { assets } from "../assets/assets";
 const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
-  const [searchBar, setSearchBar] = useState();
-
-
-  const productsData = useMemo(() => {
-    return [...products]
-  }, [products])
-
+  const [searchBar, setSearchBar] = useState("");
+  const [productsData, setProductsData] = useState([...products])
+  const [option, setOption] = useState("");
   const [filterToggle, setFilterToggle] = useState(false);
   const [filers, setFilters] = useState({
     men: "",
@@ -19,10 +15,21 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
     winterwear: "",
     bottomwear: "",
   });
-  const [option, setOption] = useState("");
+
+
+  function handleSearch(e) {
+    let value = e.target.value.toLowerCase();
+    setSearchBar(value);
+
+    const filtered = products.filter((i) =>
+      i.name.toLowerCase().includes(value)
+    );
+    setProductsData(filtered);
+  }
+
 
   const result = useMemo(() => {
-    let x = productsData;
+    let x = [...productsData];
 
     if (filers.men || filers.women || filers.kids) {
       x = x.filter((list) => {
@@ -50,7 +57,7 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
     } else {
       return x;
     }
-  }, [option, filers.men, filers.women, filers.kids, filers.topwear, filers.winterwear, filers.bottomwear]);
+  }, [option, filers.men, filers.women, filers.kids, filers.topwear, filers.winterwear, filers.bottomwear, productsData]);
   function checkVlv(e) {
     if (e.target.checked) {
       setFilters((prev) => ({ ...prev, [e.target.name]: e.target.id }));
@@ -63,7 +70,7 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
     <>
       <div className={`flex items-center justify-center gap-4 py-8 border-b-1 border-[#ADADAD] ${toggleSearchBar ? "block" : "hidden"}`}>
         <div className="w-3/4 relative rounded-full overflow-hidden">
-          <input type="text" className="w-full border border-[#ADADAD] py-2 px-6 pr-16 rounded-full" />
+          <input type="text" className="w-full border border-[#ADADAD] py-2 px-6 pr-16 rounded-full" value={searchBar} onChange={handleSearch} />
           <div className="w-15 flex items-center justify-center absolute top-0 right-0 h-full">
             <img src={assets.search_icon} alt="" className="w-5" />
           </div>
