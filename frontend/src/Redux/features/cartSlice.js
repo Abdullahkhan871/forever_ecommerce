@@ -17,15 +17,15 @@ const cartSlice = createSlice({
             }
         },
         removeItem: (state, action) => {
-            state.items = state.items.filter((item) => item._id !== action.payload)
+            state.items = state.items.filter((item) => item._id !== action.payload._id || item.sizes !== action.payload.sizes)
         },
         changeQuantityOfItem: (state, action) => {
             if (action.payload.value == 0) {
                 console.log(state.items)
-                state.items = state.items.filter((item) => item._id !== action.payload.item._id)
+                state.items = state.items.filter((item) => item._id !== action.payload.item._id || item.sizes !== action.payload.item.sizes)
             }
             else {
-                state.items = state.items.map((item) => item._id == action.payload.item._id ? { ...item, quantity: action.payload.value } : item)
+                state.items = state.items.map((item) => item._id == action.payload.item._id && item.sizes == action.payload.item.sizes ? { ...item, quantity: action.payload.value } : item)
             }
         }
     }

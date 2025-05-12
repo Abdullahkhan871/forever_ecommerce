@@ -8,18 +8,11 @@ const CartItem = ({ item }) => {
   const { _id, image, name, price, sizes, quantity, } = item;
 
   function handleRemoveItem() {
-    toast("Item Removed")
-    dispatch(removeItem(_id))
+    toast("Item Removed");
+    dispatch(removeItem({ _id, sizes }));
   }
-
-
-
-
-
-
-
   return (
-    <div className="py-4 border-y-1  border-[#D1D1D1]">
+    <div className="py-4 border-y-1 border-[#D1D1D1]">
       <div className="grid sm:grid-cols-4 items-center justify-between gap-2">
         <div className="col-span-2 flex gap-4 ">
           <div>

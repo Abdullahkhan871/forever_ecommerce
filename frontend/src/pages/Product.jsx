@@ -77,7 +77,7 @@ const Product = () => {
                   {
 
                     item.sizes.map(list => (
-                      <div className={`border-1 border-[#EBEBEB] bg-[#FBFBFB] text-[#1D1D1D] h-16 w-16 text-center flex items-center  justify-center cursor-pointer ${selectSize == list ? "border-2 border-[#FF8551]" : "border-1 border-[#EBEBEB]"}
+                      <div key={list} className={`border-1 border-[#EBEBEB] bg-[#FBFBFB] text-[#1D1D1D] h-16 w-16 text-center flex items-center  justify-center cursor-pointer ${selectSize == list ? "border-2 border-[#FF8551]" : "border-1 border-[#EBEBEB]"}
                     `}
                         onClick={() => setSelectSize(list)}
                       >

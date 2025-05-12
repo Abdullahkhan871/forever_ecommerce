@@ -32,7 +32,7 @@ const Cart = () => {
             cartItems.length > 0 && cartItems.map((item) => (
               <CartItem
                 item={item}
-                key={item._id}
+                key={`${item._id}-${item.sizes}`}
               />
             ))
           }
