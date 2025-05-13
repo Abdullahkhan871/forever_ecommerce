@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const CartTotals = () => {
     const navigate = useNavigate();
     const cartItems = useSelector(state => state.cart.items);
+
     const cartTotal = useMemo(() => {
         return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
     }, [cartItems])

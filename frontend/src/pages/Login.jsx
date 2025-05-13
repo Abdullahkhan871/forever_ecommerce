@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Subscribe from "../components/Subscribe";
-
+import { toast } from "react-toastify";
+import { EMAILPATTERN, PASSWORDPATTERN } from "../constants/regex"
+import { useDispatch } from "react-redux";
+import { addToken } from "../Redux/features/tokenSlice";
 const Login = () => {
+  const dispatch = useDispatch()
+
+  const [showPassword, setPassword] = useState(false);
+
+  const userDetails = {
+    email: useRef(null),
+    password: useRef(null),
+  }
+
+
+  const { email, password } = userDetails;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!EMAILPATTERN.test(email.current.value)) {
+      toast("email should be like this john.doe@example.com")
+      return;
+    }
+    else if (!PASSWORDPATTERN.test(password.current.value)) {
+      toast("Password should be like this : Welcome@2024")
+      return;
+    }
+    toast("Welcome")
+    dispatch(addToken((email.current.value + password.current.value)))
+    email.current.value = "";
+    password.current.value = "";
+  }
+
   return (
     <div className="py-20 flex flex-col gap-8">
       <div className="flex flex-col gap-8">
@@ -10,15 +41,15 @@ const Login = () => {
           <h2 className="prata-regular text-4xl text-center text-[#414141]">Login</h2>
           <div className="w-10 h-0.5 bg-[#484848]"></div>
         </div>
-        <form className="flex flex-col gap-4 sm:gap-6">
+        <form className="flex flex-col gap-4 sm:gap-6" onSubmit={handleSubmit}>
           <div className="text-center">
-            <input type="email" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Email" required />
+            <input type="email" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Email" name="email" ref={email} required />
           </div>
           <div className="flex items-center justify-center">
             <div className="w-full sm:w-2/4 relative">
-              <input type="password" className="w-full outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Password" required />
+              <input type={showPassword ? "text" : "password"} className="w-full outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Password" name="password" ref={password} required />
               <div className="bg-[#232323] px-4 text-center absolute top-0 right-0 h-full flex items-center cursor-pointer">
-                <p className="text-white">Show</p>
+                <p className="text-white" onClick={() => setPassword(prev => !prev)}>Show</p>
               </div>
             </div>
           </div>

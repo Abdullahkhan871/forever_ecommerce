@@ -5,11 +5,6 @@ import { useSelector } from "react-redux";
 
 const Cart = () => {
   const cartItems = useSelector(state => state.cart.items);
-
-
-  console.log(cartItems)
-
-
   return (
     <div className="py-2 sm:py-8">
       <div>
@@ -26,7 +21,6 @@ const Cart = () => {
             />
 
         }
-
         <div className="">
           {
             cartItems.length > 0 && cartItems.map((item) => (

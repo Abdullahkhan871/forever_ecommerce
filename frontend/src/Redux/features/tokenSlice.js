@@ -9,7 +9,10 @@ const tokenSlice = createSlice({
     name: "token",
     initialState,
     reducers: {
-        addToken: (state, action) => state.token = action.payload,
+        addToken: (state, action) => {
+            localStorage.setItem("token", action.payload)
+            state.token = action.payload
+        },
         removeToken: (state) => {
             localStorage.removeItem("token");
             state.token = "";
