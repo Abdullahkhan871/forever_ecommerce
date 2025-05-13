@@ -3,6 +3,7 @@ import { assets } from "../assets/assets"
 import { useSelector } from "react-redux";
 const PlaceOrder = () => {
   const cartItems = useSelector(state => state.cart.items);
+
   const cartTotal = useMemo(() => {
     return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
   }, [cartItems])
@@ -52,7 +53,7 @@ const PlaceOrder = () => {
               <p>${cartTotal}</p>
             </div>
             <div className='border-b-1 py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
-              <p>Shipping Free</p>
+              <p>Shipping Fee</p>
               <p>$10.00</p>
             </div>
             <div className='py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
