@@ -49,20 +49,14 @@ const PlaceOrder = () => {
       return
     }
 
-    if (!razorpayRef.current.checked) {
-      toast("Please Choose one Payment")
-      return
-    }
-    if (!codRef.current.checked) {
+    if (!razorpayRef.current.checked || !codRef.current.checked) {
       toast("Please Choose one Payment")
       return
     }
 
-
-
-    if (razorpayRef.current.checked) {
-      loadRazorpay()
-    }
+    // if (razorpayRef.current.checked) {
+    //   loadRazorpay()
+    // }
 
     toast("check order on My order section")
 
