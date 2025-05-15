@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { EMAILPATTERN, PASSWORDPATTERN } from "../constants/regex"
 import { useDispatch } from "react-redux";
 import { addToken } from "../Redux/features/tokenSlice";
+
 const Login = () => {
   const dispatch = useDispatch()
 

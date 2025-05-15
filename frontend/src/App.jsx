@@ -18,9 +18,6 @@ import { useSelector } from "react-redux";
 const App = () => {
   const token = useSelector(state => state.token.token);
   const cart = useSelector(state => state.cart.items);
-
-  console.log(cart)
-
   const [toggleSearchBar, setToggleSearchBar] = useState(false);
 
   return (

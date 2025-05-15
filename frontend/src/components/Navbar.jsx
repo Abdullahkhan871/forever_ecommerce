@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeToken } from "../Redux/features/tokenSlice";
 
 const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
+
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cart.items)
+  const token = useSelector(state => state.token.token)
   const [visible, setvisible] = useState(false);
+
 
 
 
@@ -72,9 +75,49 @@ const Navbar = ({ toggleSearchBar, setToggleSearchBar }) => {
               <img src={assets.search_icon} alt="search_icon" className="w-6" />
             </NavLink>
           </div>
-          <div className="hidden sm:block">
-            <img src={assets.profile_icon} alt="profile_icon" className="w-6" />
+          <div className="hidden group relative sm:block">
+            {
+              token ? (
+                <img src={assets.profile_icon} alt="profile_icon" className="w-6 cursor-pointer" />
+              ) : (
+                <NavLink to="/login">
+                  <img src={assets.profile_icon} alt="profile_icon" className="w-6 cursor-pointer" />
+                </NavLink>
+              )
+            }
+            {
+              token && (
+                <div className="min-w-80 pt-10 px-5 absolute top-0 right-0 font-semibold opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-300 z-50">
+                  <div className="bg-gray-300 w-full h-full space-y-4 shadow-lg rounded-md p-4">
+
+                    <div className="group">
+                      <NavLink
+                        to="/order"
+                        className="block p-2 text-xl font-medium text-gray-700 border-b border-gray-500 hover:text-gray-900 hover:border-gray-800 transition"
+                      >
+                        My orders
+                      </NavLink>
+
+                    </div>
+
+                    <div className="group">
+                      <NavLink
+                        to="/login"
+                        onClick={() => {
+                          dispatch(removeToken());
+                        }}
+                        className="block p-2 text-xl font-medium text-gray-700 border-b border-gray-500 hover:text-gray-900 hover:border-gray-800 transition"
+                      >
+                        Logout
+                      </NavLink>
+                    </div>
+
+                  </div>
+                </div>
+              )
+            }
           </div>
+
           <div className="relative">
             <NavLink to="/cart">
               <img src={assets.cart_icon} alt="cart_icon" className="w-6" />

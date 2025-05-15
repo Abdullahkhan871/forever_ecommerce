@@ -1,8 +1,89 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { assets } from "../assets/assets"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { EMAILPATTERN } from "../constants/regex";
+import { useNavigate } from "react-router-dom";
+import { addOrders } from "../Redux/features/orderSlice";
+import loadRazorpay from "../paymentGateways/loadRazorpay"
+
+
 const PlaceOrder = () => {
   const cartItems = useSelector(state => state.cart.items);
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  const user = {
+    firstName: useRef(null),
+    lastName: useRef(null),
+    email: useRef(null),
+    street: useRef(null),
+    city: useRef(null),
+    state: useRef(null),
+    zipCode: useRef(null),
+    country: useRef(null),
+    phone: useRef(null),
+  }
+
+  const paymentGateway = {
+    razorpayRef: useRef(null),
+    stripRef: useRef(null),
+    codRef: useRef(null),
+  }
+
+  const { razorpayRef, stripRef, codRef } = paymentGateway
+
+
+  function handleSumbit(e) {
+    const { firstName, lastName, email, street, city, state, zipCode, country, phone } = user
+
+    if (!firstName.current.value.trim() || !lastName.current.value.trim() || !street.current.value.trim() || !city.current.value.trim() || !state.current.value.trim() || !zipCode.current.value.trim() || !country.current.value.trim()) {
+      toast("Please fill form before place order")
+      return
+    }
+    else if (!EMAILPATTERN.test(email.current.value)) {
+      toast("Please write email")
+      return
+    } else if (!phone.current.lenght > 7) {
+      toast("Mobile number should be more than 8")
+      return
+    }
+
+    if (!razorpayRef.current.checked) {
+      toast("Please Choose one Payment")
+      return
+    }
+    if (!codRef.current.checked) {
+      toast("Please Choose one Payment")
+      return
+    }
+
+
+
+    if (razorpayRef.current.checked) {
+      loadRazorpay()
+    }
+
+    toast("check order on My order section")
+
+    razorpayRef.current.checked = false
+    stripRef.current.checked = false
+    codRef.current.checked = false
+
+    firstName.current.value = "";
+    lastName.current.value = "";
+    email.current.value = "";
+    street.current.value = "";
+    city.current.value = "";
+    state.current.value = "";
+    zipCode.current.value = "";
+    country.current.value = "";
+    phone.current.value = "";
+
+
+    dispatch(addOrders(cartItems))
+    navigate("/order")
+  }
 
   const cartTotal = useMemo(() => {
     return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
@@ -19,25 +100,25 @@ const PlaceOrder = () => {
         <div className="w-full sm:w-[45%] md:w-[40%]">
           <form className="flex flex-col gap-4 sm:gap-7">
             <div className="flex gap-5">
-              <input type="text" placeholder="First name" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
-              <input type="text" placeholder="Last name" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
+              <input type="text" placeholder="First name" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.firstName} />
+              <input type="text" placeholder="Last name" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.lastName} />
             </div>
             <div>
-              <input type="email" placeholder="Email addess" className="w-full px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
+              <input type="email" placeholder="Email addess" className="w-full px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.email} />
             </div>
             <div>
-              <input type="email" placeholder="Street" className="w-full px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
+              <input type="text" placeholder="Street" className="w-full px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.street} />
             </div>
             <div className="flex gap-5">
-              <input type="text" placeholder="City" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
-              <input type="text" placeholder="State" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
+              <input type="text" placeholder="City" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.city} />
+              <input type="text" placeholder="State" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.state} />
             </div>
             <div className="flex gap-5">
-              <input type="text" placeholder="Zip code" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
-              <input type="text" placeholder="Country" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
+              <input type="text" placeholder="Zip code" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.zipCode} />
+              <input type="text" placeholder="Country" className="w-1/2 px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.country} />
             </div>
             <div>
-              <input type="email" placeholder="Phone" className="w-full px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required />
+              <input type="number" placeholder="Phone" className="w-full px-3 py-2 text-[#8B8B8B] outline-1 outline-[#C5C5C5]" required ref={user.phone} />
             </div>
           </form>
         </div>
@@ -70,25 +151,25 @@ const PlaceOrder = () => {
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-5 lg:gap-1 ">
               <label htmlFor="strip" className="w-full">
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
-                  <input type="radio" name="paymentMethod" id="strip" />
+                  <input type="radio" name="paymentMethod" id="strip" ref={stripRef} />
                   <img src={assets.stripe_logo} alt="" className="w-[60px] h-[20px] object-contain" />
                 </div>
               </label>
               <label htmlFor="razorpay" className="w-full">
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
-                  <input type="radio" name="paymentMethod" id="razorpay" />
+                  <input type="radio" name="paymentMethod" id="razorpay" ref={razorpayRef} />
                   <img src={assets.razorpay_logo} alt="" className="w-[60px] h-[20px] object-contain" />
                 </div>
               </label>
               <label htmlFor="cashOnDelivery" className="w-full" >
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
-                  <input type="radio" name="paymentMethod" id="cashOnDelivery" />
+                  <input type="radio" name="paymentMethod" id="cashOnDelivery" ref={codRef} />
                   <p className="text-sm lg:text-xs lg:py-0.5">CASH ON DELIVERY</p>
                 </div>
               </label>
             </div>
             <div className="flex items-center justify-end mt-5">
-              <button className="bg-black text-white font-medium py-2 px-15">Place Order</button>
+              <button className="bg-black text-white font-medium py-2 px-15" onClick={handleSumbit}>Place Order</button>
             </div>
           </div>
         </div>
