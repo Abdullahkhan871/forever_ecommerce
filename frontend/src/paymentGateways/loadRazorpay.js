@@ -1,7 +1,7 @@
 function loadRazorpay() {
     const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Replace with your test key ID
-        amount: 50000, // in paise = ₹500
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: 50000,
         currency: "INR",
         name: "Test Company",
         description: "Test Transaction",
@@ -24,6 +24,6 @@ function loadRazorpay() {
 
     const rzp = new window.Razorpay(options);
     rzp.open();
-};
+}
 
 export default loadRazorpay;

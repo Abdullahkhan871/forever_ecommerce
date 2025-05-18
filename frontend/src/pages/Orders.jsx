@@ -1,16 +1,6 @@
-import React from "react";
-import { products, assets } from "../assets/assets"
 import { useSelector } from "react-redux";
 const Orders = () => {
   const myOrder = useSelector(state => state.myOrder.orders)
-
-  console.log(myOrder)
-
-
-
-
-
-
   return (
     <div className="py-10 sm:py-20">
       <div className='flex items-center gap-2 mb-10'>
@@ -18,7 +8,6 @@ const Orders = () => {
         <h2 className='text[#343434] text-2xl sm:text-3xl font-semibold'>ORDERS</h2>
         <div className='w-6 sm:w-8 h-0.5 bg-[#252525]'></div>
       </div>
-
       {
         myOrder.length > 0 && myOrder.map(i => (
 

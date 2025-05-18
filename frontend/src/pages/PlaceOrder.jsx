@@ -1,11 +1,10 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { assets } from "../assets/assets"
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { EMAILPATTERN } from "../constants/regex";
 import { useNavigate } from "react-router-dom";
 import { addOrders } from "../Redux/features/orderSlice";
-import loadRazorpay from "../paymentGateways/loadRazorpay"
 
 
 const PlaceOrder = () => {
@@ -23,7 +22,23 @@ const PlaceOrder = () => {
     zipCode: useRef(null),
     country: useRef(null),
     phone: useRef(null),
-  }
+  };
+
+  useEffect(() => {
+    user.firstName.current.value = "John";
+    user.lastName.current.value = "Doe";
+    user.email.current.value = "john.doe@example.com";
+    user.street.current.value = "123 Main St";
+    user.city.current.value = "New York";
+    user.state.current.value = "NY";
+    user.zipCode.current.value = "10001";
+    user.country.current.value = "USA";
+    user.phone.current.value = 1234567890;
+  }, []);
+
+  const cartTotal = useMemo(() => {
+    return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
+  }, [cartItems])
 
   const paymentGateway = {
     razorpayRef: useRef(null),
@@ -32,6 +47,43 @@ const PlaceOrder = () => {
   }
 
   const { razorpayRef, stripRef, codRef } = paymentGateway
+
+  async function loadRazorpay() {
+    try {
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: (cartTotal + 10 * 80) * 100,
+        currency: "INR",
+        name: "Recipe store",
+        description: "Payment for Order",
+        handler: async function (response) {
+          console.log("Payment successful", response);
+          await axios.post("http://localhost:5173/payment", { amount: (cartTotal + 10 * 80) * 100 });
+        },
+        prefill: {
+          name: "vamsi narayanam",
+          email: "vamikrish.rock@gmail.com",
+          contact: "9582908655",
+        },
+        notes: {
+          address: "dwarka sector-7",
+        },
+        theme: {
+          color: "#F37254",
+        },
+      };
+
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.error("Payment Error:", error.response?.data || error.message);
+      alert("Payment failed. Try again!");
+    }
+
+  }
+
 
 
   function handleSumbit(e) {
@@ -44,19 +96,19 @@ const PlaceOrder = () => {
     else if (!EMAILPATTERN.test(email.current.value)) {
       toast("Please write email")
       return
-    } else if (!phone.current.lenght > 7) {
+    } else if (phone.current.value.lenght < 8) {
       toast("Mobile number should be more than 8")
       return
     }
 
-    if (!razorpayRef.current.checked || !codRef.current.checked) {
+    if (!razorpayRef.current.checked && !codRef.current.checked) {
       toast("Please Choose one Payment")
       return
     }
 
-    // if (razorpayRef.current.checked) {
-    //   loadRazorpay()
-    // }
+    if (razorpayRef.current.checked) {
+      loadRazorpay()
+    }
 
     toast("check order on My order section")
 
@@ -75,14 +127,9 @@ const PlaceOrder = () => {
     phone.current.value = "";
 
 
-    dispatch(addOrders(cartItems))
-    navigate("/order")
+    // dispatch(addOrders(cartItems))
+    // navigate("/order")
   }
-
-  const cartTotal = useMemo(() => {
-    return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
-  }, [cartItems])
-
   return (
     <div className="py-5 md:py-20 flex flex-col justify-between">
       <div className="flex items-center justify-start gap-2 mb-2 sm:mb-7">
