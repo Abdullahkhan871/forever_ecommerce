@@ -14,6 +14,7 @@ const orderSlice = createSlice({
 
                 return {
                     ...i,
+                    _id: i._id + i.sizes,
                     status: "Shipped",
                     date: formattedDate
                 };

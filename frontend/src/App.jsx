@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -14,11 +14,19 @@ import Footer from "./components/Footer";
 import ErrorPage from "./components/ErrorPage";
 import SignUp from "./pages/SignUp";
 import { ToastContainer } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProduct } from "./Redux/features/productsSlice";
 const App = () => {
+  const products = useSelector(state => state.products);
   const token = useSelector(state => state.token.token);
   const cart = useSelector(state => state.cart.items);
   const [toggleSearchBar, setToggleSearchBar] = useState(false);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getProduct())
+  }, [])
+
 
   return (
     <div className="container mx-auto px-4 overflow-hidden">

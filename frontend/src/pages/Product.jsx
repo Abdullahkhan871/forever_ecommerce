@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Title from "../components/Title";
 import RelatedProduct from "../components/RelatedProduct";
-import { products } from "../assets/assets";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../Redux/features/cartSlice";
 import { toast } from "react-toastify";
 
 const Product = () => {
+  const { isLoading, products } = useSelector((state) => state.products);
   const dispatch = useDispatch()
   const { id } = useParams()
   const [item, setItem] = useState(null);
@@ -22,7 +22,7 @@ const Product = () => {
   useEffect(() => {
     setMainImage("")
     findItem();
-  }, [id])
+  }, [id, products])
 
   function handleAddbtn() {
     if (!selectSize) {
@@ -34,7 +34,9 @@ const Product = () => {
     setSelectSize("")
   }
 
-
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  }
 
   return (
     <div>

@@ -24,7 +24,7 @@ const CartItem = ({ item }) => {
             <h3 className="font-medium text-xl text-[#494949]">{name}</h3>
             <div className="flex items-center gap-4">
               <p className="text-2xl font-light text-[#494949]">
-                ${price * quantity}
+                ₹{price * quantity}
               </p>
               <div className="bg-[#FBFBFB] py-2 px-4 border-1 border-[#DFDFDF] text-[#1D1D1D] ">{sizes.toUpperCase()}</div>
             </div>

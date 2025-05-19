@@ -1,13 +1,15 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { assets } from "../assets/assets"
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { EMAILPATTERN } from "../constants/regex";
 import { useNavigate } from "react-router-dom";
 import { addOrders } from "../Redux/features/orderSlice";
+import axios from "axios";
 
 
 const PlaceOrder = () => {
+  const [razorPaymentId, setRazorPaymentId] = useState("");
   const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -23,18 +25,7 @@ const PlaceOrder = () => {
     country: useRef(null),
     phone: useRef(null),
   };
-
-  useEffect(() => {
-    user.firstName.current.value = "John";
-    user.lastName.current.value = "Doe";
-    user.email.current.value = "john.doe@example.com";
-    user.street.current.value = "123 Main St";
-    user.city.current.value = "New York";
-    user.state.current.value = "NY";
-    user.zipCode.current.value = "10001";
-    user.country.current.value = "USA";
-    user.phone.current.value = 1234567890;
-  }, []);
+  const { firstName, lastName, email, street, city, state, zipCode, country, phone } = user
 
   const cartTotal = useMemo(() => {
     return cartItems.reduce((acumilator, item) => acumilator += item.price * item.quantity, 0)
@@ -53,13 +44,21 @@ const PlaceOrder = () => {
 
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: (cartTotal + 10 * 80) * 100,
+        amount: (cartTotal + 10) * 100,
         currency: "INR",
         name: "Recipe store",
         description: "Payment for Order",
         handler: async function (response) {
           console.log("Payment successful", response);
-          await axios.post("http://localhost:5173/payment", { amount: (cartTotal + 10 * 80) * 100 });
+          if (response.razorpay_payment_id) {
+            toast("check order on My order section")
+            removeformValue()
+            dispatch(addOrders(cartItems))
+            navigate("/order")
+          } else {
+            toast("Payment failed try again")
+          }
+          // await axios.post(`${import.meta.env.VITE_CURRENT_SITE_URL}/placeorder`, { amount: (cartTotal + 10) * 100 });
         },
         prefill: {
           name: "vamsi narayanam",
@@ -74,7 +73,6 @@ const PlaceOrder = () => {
         },
       };
 
-
       const rzp1 = new window.Razorpay(options);
       rzp1.open();
     } catch (error) {
@@ -87,8 +85,7 @@ const PlaceOrder = () => {
 
 
   function handleSumbit(e) {
-    const { firstName, lastName, email, street, city, state, zipCode, country, phone } = user
-
+    e.preventDefault();
     if (!firstName.current.value.trim() || !lastName.current.value.trim() || !street.current.value.trim() || !city.current.value.trim() || !state.current.value.trim() || !zipCode.current.value.trim() || !country.current.value.trim()) {
       toast("Please fill form before place order")
       return
@@ -96,7 +93,7 @@ const PlaceOrder = () => {
     else if (!EMAILPATTERN.test(email.current.value)) {
       toast("Please write email")
       return
-    } else if (phone.current.value.lenght < 8) {
+    } else if (phone.current.value.length < 8) {
       toast("Mobile number should be more than 8")
       return
     }
@@ -110,10 +107,18 @@ const PlaceOrder = () => {
       loadRazorpay()
     }
 
-    toast("check order on My order section")
+    if (codRef.current.checked) {
+      toast("check order on My order section")
+      removeformValue()
+      dispatch(addOrders(cartItems))
+      navigate("/order")
+      return
+    }
+  }
 
+  function removeformValue() {
     razorpayRef.current.checked = false
-    stripRef.current.checked = false
+    // stripRef.current.checked = false
     codRef.current.checked = false
 
     firstName.current.value = "";
@@ -125,11 +130,9 @@ const PlaceOrder = () => {
     zipCode.current.value = "";
     country.current.value = "";
     phone.current.value = "";
-
-
-    // dispatch(addOrders(cartItems))
-    // navigate("/order")
   }
+
+
   return (
     <div className="py-5 md:py-20 flex flex-col justify-between">
       <div className="flex items-center justify-start gap-2 mb-2 sm:mb-7">
@@ -172,15 +175,15 @@ const PlaceOrder = () => {
           <div >
             <div className='border-b-1 py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
               <p>Subtotal</p>
-              <p>${cartTotal}</p>
+              <p>₹{cartTotal}</p>
             </div>
             <div className='border-b-1 py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
               <p>Shipping Fee</p>
-              <p>$10.00</p>
+              <p>₹10.00</p>
             </div>
             <div className='py-3 flex items-center justify-between border-[#E5E5E5] text-[#555555]'>
               <p className='text-[#454545] font-bold'>Total</p>
-              <p>${cartTotal + 10}</p>
+              <p>₹{cartTotal + 10}</p>
             </div>
           </div>
           <div className="mt-5">
@@ -190,19 +193,19 @@ const PlaceOrder = () => {
               <div className='w-6 sm:w-8 h-0.5 bg-[#252525]'></div>
             </div>
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-5 lg:gap-1 ">
-              <label htmlFor="strip" className="w-full">
+              {/* <label htmlFor="strip" className="w-full">
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
                   <input type="radio" name="paymentMethod" id="strip" ref={stripRef} />
                   <img src={assets.stripe_logo} alt="" className="w-[60px] h-[20px] object-contain" />
                 </div>
-              </label>
-              <label htmlFor="razorpay" className="w-full">
+              </label> */}
+              <label htmlFor="razorpay" className="w-full cursor-pointer">
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
                   <input type="radio" name="paymentMethod" id="razorpay" ref={razorpayRef} />
                   <img src={assets.razorpay_logo} alt="" className="w-[60px] h-[20px] object-contain" />
                 </div>
               </label>
-              <label htmlFor="cashOnDelivery" className="w-full" >
+              <label htmlFor="cashOnDelivery" className="w-full cursor-pointer"  >
                 <div className="w-full border-1 border-[#B3B3B3] py-2 px-3 flex items-center gap-2">
                   <input type="radio" name="paymentMethod" id="cashOnDelivery" ref={codRef} />
                   <p className="text-sm lg:text-xs lg:py-0.5">CASH ON DELIVERY</p>
@@ -210,7 +213,7 @@ const PlaceOrder = () => {
               </label>
             </div>
             <div className="flex items-center justify-end mt-5">
-              <button className="bg-black text-white font-medium py-2 px-15" onClick={handleSumbit}>Place Order</button>
+              <button className="cursor-pointer bg-black text-white font-medium py-2 px-15" onClick={handleSumbit}>Place Order</button>
             </div>
           </div>
         </div>

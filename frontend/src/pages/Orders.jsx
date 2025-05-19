@@ -19,7 +19,7 @@ const Orders = () => {
               <div className="flex flex-col justify-between">
                 <h2 className="text-[#494949] text-xl lg:text-2xl font-medium">{i.name}</h2>
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-2xl text-[#494949]">${i.price}</p>
+                  <p className="text-2xl text-[#494949]">₹{i.price}</p>
                   <p className="text-xl text-[#494949]">Quantity: {i.quantity}</p>
                   <p className="text-xl text-[#494949]">Size: {i.sizes}</p>
                 </div>

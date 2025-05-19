@@ -52,14 +52,14 @@ const SignUp = () => {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-6">
           <div className="text-center">
-            <input type="text" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Name" name="name" ref={name} required />
+            <input type="text" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Name" name="name" autoComplete="name" ref={name} required />
           </div>
           <div className="text-center">
-            <input type="email" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Email" name="email" ref={email} required />
+            <input type="email" className="w-full sm:w-2/4 outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Email" name="email" autoComplete="email" ref={email} required />
           </div>
           <div className="flex items-center justify-center">
             <div className="w-full sm:w-2/4 relative">
-              <input type={showPassword ? "text" : "password"} className="w-full outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Password" name="password" ref={password} required />
+              <input type={showPassword ? "text" : "password"} className="w-full outline-none border-1 border-black py-1 px-2 text-[#6A6A6A] text-lg" placeholder="Password" name="password" autoComplete="current-password" ref={password} required />
               <div className="bg-[#232323] px-4 text-center absolute top-0 right-0 h-full flex items-center cursor-pointer">
                 <p className="text-white" onClick={() => setShowPassword((prev) => !prev)}>Show</p>
               </div>

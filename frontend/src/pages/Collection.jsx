@@ -1,10 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProductItem from "../components/ProductItem";
-import { products } from "../assets/assets";
 import { assets } from "../assets/assets";
+import { useSelector } from "react-redux";
 const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
+  const { isLoading, products } = useSelector((state) => state.products);
+
   const [searchBar, setSearchBar] = useState("");
-  const [productsData, setProductsData] = useState([...products])
+  const [productsData, setProductsData] = useState()
   const [option, setOption] = useState("");
   const [filterToggle, setFilterToggle] = useState(false);
   const [filers, setFilters] = useState({
@@ -29,7 +31,12 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
 
 
   const result = useMemo(() => {
-    let x = [...productsData];
+    let x;
+    if (productsData) {
+      x = [...productsData];
+    } else {
+      x = [...products]
+    }
 
     if (filers.men || filers.women || filers.kids) {
       x = x.filter((list) => {
@@ -57,7 +64,8 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
     } else {
       return x;
     }
-  }, [option, filers.men, filers.women, filers.kids, filers.topwear, filers.winterwear, filers.bottomwear, productsData]);
+  }, [option, filers.men, filers.women, filers.kids, filers.topwear, filers.winterwear, filers.bottomwear, products, productsData]);
+
   function checkVlv(e) {
     if (e.target.checked) {
       setFilters((prev) => ({ ...prev, [e.target.name]: e.target.id }));
@@ -66,6 +74,11 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
       setFilters((prev) => ({ ...prev, [e.target.name]: "" }));
     }
   }
+
+  if (isLoading) {
+    return <h2>Loading... </h2>
+  }
+
   return (
     <>
       <div className={`flex items-center justify-center gap-4 py-8 border-b-1 border-[#ADADAD] ${toggleSearchBar ? "block" : "hidden"}`}>
@@ -171,7 +184,7 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
               </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {result.length > 0 &&
+              {result.length > 0 ?
                 result.map((list) => (
                   <ProductItem
                     key={list._id}
@@ -180,7 +193,14 @@ const Collection = ({ toggleSearchBar, setToggleSearchBar }) => {
                     name={list.name}
                     price={list.price}
                   />
-                ))}
+                ))
+                :
+                (
+                  <div>
+                    No Items
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
