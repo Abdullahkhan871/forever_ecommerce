@@ -11,7 +11,7 @@ const Hero = () => {
               OUR BESTSELLERS
             </p>
           </div>
-          <h1 className="text-5xl sm:text-6xl prata-regular text-[#414141]">
+          <h1 className="text-4xl sm:text-6xl prata-regular text-[#414141]">
             Latest Arrivals
           </h1>
           <div className="flex items-center gap-2">
