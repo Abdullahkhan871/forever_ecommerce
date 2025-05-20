@@ -9,6 +9,10 @@ import { useState } from 'react'
 const List = () => {
     const product = useSelector(state => state.product)
 
+    useEffect(() => {
+        getItemsList()
+    }, [])
+
     return (
         <div className='text-gray-600'>
             <h2 >All Products List</h2>
