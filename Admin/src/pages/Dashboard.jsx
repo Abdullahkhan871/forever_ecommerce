@@ -17,7 +17,7 @@ const Dashboard = () => {
 
     return (
         <div className='mx-auto px-4 lg:px-20 min-h-screen text-gray-600 bg-[#f9fafb] overflow-hidden'>
-            <div className='min-h-[10vh] py-4 flex items-center justify-between gap-5 border-b border-[#e5e7eb] relative '>
+            <div className='min-h-[10vh] py-4 flex items-center justify-between gap-5 border-b border-[#e5e7eb] relative'>
                 <div>
                     <NavLink to="/">
                         <img src={logo} alt="" className='w-[max(10%,150px)] object-cover' />

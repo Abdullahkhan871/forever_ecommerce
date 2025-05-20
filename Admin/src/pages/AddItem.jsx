@@ -1,14 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import uploadImage_icon from "../assets/uploadImage_icon.png"
 import UploadImages from '../components/UploadImages'
 import ProductSizes from '../components/ProductSizes'
-import { useDispatch } from 'react-redux'
-import { v4 as uuidv4 } from 'uuid';
-import { addItem } from '../redux/actions/productAction'
+import { useDispatch, useSelector } from 'react-redux'
 import { emptyWarning } from '../redux/actions/warningAction'
+import axios from 'axios'
+import { backendUrl } from '../App'
 
 
 const AddItem = () => {
+    const token = useSelector(state => state.token)
     const dispatch = useDispatch()
     const [resetItemSizes, setResetItemSizes] = useState(false)
 
@@ -94,23 +95,48 @@ const AddItem = () => {
             showWarning("please select at least one size")
             return
         }
-
-        dispatch(addItem(item))
-        setItem({
-            _id: uuidv4(),
-            name: "",
-            description: "",
-            price: '',
-            image: [],
-            category: "Men",
-            subCategory: "Topwear",
-            sizes: [],
-            date: new Date().toISOString(),
-            bestseller: false
-        })
-        e.target.reset();
-        setResetItemSizes(true)
+        postItem(item, e);
     }
+
+    async function postItem(item, e) {
+        try {
+            const formData = new FormData()
+            formData.append("name", item.name)
+            formData.append("description", item.description)
+            formData.append("price", item.price)
+            formData.append("category", item.category)
+            formData.append("subCategory", item.subCategory)
+            formData.append("sizes", JSON.stringify(item.sizes))
+            formData.append("bestseller", item.bestseller)
+
+            if (item.image[0]) formData.append("image1", item.image[0]);
+            if (item.image[1]) formData.append("image2", item.image[1]);
+            if (item.image[2]) formData.append("image3", item.image[2]);
+            if (item.image[3]) formData.append("image4", item.image[3]);
+
+            const res = await axios.post(backendUrl + "/api/product/add", formData, { headers: { token } })
+
+            console.log(res.data)
+
+            setItem({
+                name: "",
+                description: "",
+                price: '',
+                image: [],
+                category: "",
+                subCategory: "",
+                sizes: [],
+                bestseller: false
+            })
+            e.target.reset();
+            setResetItemSizes(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
 
     return (
         <div>
@@ -201,7 +227,6 @@ const AddItem = () => {
                             setItem((pre) => ({ ...pre, bestseller: e.target.checked ? true : false }))
                         }
                         checked={item.bestseller ? true : false}
-                        required
                     />
                     <label htmlFor="bestseller" className='cursor-pointer'>Add to bestseller</label>
                 </div>

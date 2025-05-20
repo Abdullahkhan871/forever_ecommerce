@@ -10,7 +10,7 @@ const Login = () => {
     const showWarning = useShowWarning();
 
     const [email, setEmail] = useState("akhan283785@gmail.com")
-    const [password, setPassword] = useState("Abdullah@1")
+    const [password, setPassword] = useState("Demo@123")
     const [showPassword, setShowPassword] = useState(false);
 
 

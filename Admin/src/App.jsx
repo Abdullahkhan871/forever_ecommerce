@@ -8,9 +8,8 @@ import Login from './pages/Login'
 // import SignUp from './pages/Signup'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToken } from "../src/redux/actions/tokenAction.js"
-import axios from 'axios'
-import { getItems } from './redux/actions/productAction.js'
 import useGetItemsList from './components/useGetItemsList.js'
+
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -32,7 +31,7 @@ const App = () => {
   return (
     <>
       <div
-        className={`warning absolute rounded-xl top-20 right-4 min-w-[220px] sm:min-w-[300px] h-[80px] p-4 flex items-center justify-center text-white bg-red-500 shadow-lg transition-all duration-300 ease-in-out transform ${warning ? 'opacity-100' : 'opacity-0'
+        className={`warning absolute rounded-xl top-20 right-4 min-w-[220px] sm:min-w-[300px] h-[80px] p-4 flex items-center justify-center text-white bg-red-500 shadow-lg z-50 transition-all duration-300 ease-in-out transform ${warning ? 'opacity-100' : 'opacity-0'
           }`}
       >
         {warning}

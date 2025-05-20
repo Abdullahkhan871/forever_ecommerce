@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 const UploadImages = ({ id, uploadImage_icon, setItem, resetItemSizes, setResetItemSizes }) => {
     const [uploadImage, setUploadImage] = useState(null)
 
-
     useEffect(() => {
         if (resetItemSizes) {
             setUploadImage("");
@@ -21,7 +20,7 @@ const UploadImages = ({ id, uploadImage_icon, setItem, resetItemSizes, setResetI
                     if (e.target.files && e.target.files[0]) {
                         const fileUrl = URL.createObjectURL(e.target.files[0]);
                         setUploadImage(fileUrl);
-                        setItem(prev => ({ ...prev, image: [...prev.image, fileUrl] }))
+                        setItem(prev => ({ ...prev, image: [...prev.image, e.target.files[0]] }))
                     }
                 }}
                 hidden
