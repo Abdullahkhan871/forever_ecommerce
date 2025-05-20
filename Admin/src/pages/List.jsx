@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { backendUrl } from '../App'
 import axios from 'axios'
 import { useState } from 'react'
+import useGetItemsList from '../components/useGetItemsList'
 
 
 const List = () => {
+    const getItemsList = useGetItemsList()
     const product = useSelector(state => state.product)
 
     useEffect(() => {
