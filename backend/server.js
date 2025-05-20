@@ -16,8 +16,14 @@ connectCloudinary();
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "https://forever-ecommerce-admin-psi.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
+// Optional: handle preflight for all routes
+app.options("*", cors());
 
 
 // api endpoints
