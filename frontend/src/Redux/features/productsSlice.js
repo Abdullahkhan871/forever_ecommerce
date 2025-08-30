@@ -3,7 +3,8 @@ import axios from "axios";
 
 export const getProduct = createAsyncThunk("products", async () => {
     const res = await axios.get(import.meta.env.VITE_GET_PRODUCT_URL)
-    return res.data
+    console.log("1", res);
+    return res.data.message
 })
 
 
